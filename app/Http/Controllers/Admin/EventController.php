@@ -20,7 +20,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $events = Event::query()->latest()->take(5)->get();
         return EventResource::collection($events);
     }
 
@@ -36,7 +36,7 @@ class EventController extends Controller
         ], [
             'name' => $data['owner']['name'],
             'role' => 'event_owner',
-            'password' => Hash::make($passowrd = Str::random(10))   
+            'password' => Hash::make($passowrd = Str::random(10))
         ]);
 
         $event = Event::query()->create([
@@ -55,7 +55,7 @@ class EventController extends Controller
 
 
 
-        // $event = Event::create($request->validated()); 
+        // $event = Event::create($request->validated());
         // return new EventResource($event);
     }
 

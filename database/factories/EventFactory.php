@@ -17,6 +17,10 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create([
+            'role' => 'event_owner'
+        ]);
+
         return [
             'name' => fake()->sentence,
             'description' => fake()->paragraph,
@@ -24,7 +28,7 @@ class EventFactory extends Factory
             'max_participants' => fake()->numberBetween(10, 100),
             'start_date' => fake()->dateTime,
             'end_date' => fake()->dateTime,
-            'owner_id' => User::factory(),
+            'owner_id' => $user,
         ];
     }
 }

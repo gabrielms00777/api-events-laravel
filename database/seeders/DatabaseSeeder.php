@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin',
             'password' => 'admin',
         ]);
-        
-        User::factory(10)->create();
+
+        // User::factory(10)->create();
 
         $this->call([
             EventSeeder::class

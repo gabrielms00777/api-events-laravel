@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Owner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
 });
 
 // Event Admin Routes
+Route::post('/event/login', Owner\AuthController::class); // Registrar check-in por QR code
 Route::middleware(['auth:sanctum', 'role:event_owner'])->group(function () {
     // Route::get('/events/{uuid}/admin', [EventAdminController::class, 'dashboard']); // Painel principal do evento
     // Route::get('/events/{uuid}/admin/staff', [StaffController::class, 'index']); // Listar funcionários
