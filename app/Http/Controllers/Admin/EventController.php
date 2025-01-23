@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateEventRequest;
-use App\Http\Requests\UpdateEventRequest;
+use App\Http\Requests\Admin\CreateEventRequest;
+use App\Http\Requests\Admin\UpdateEventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
+use App\Models\User;
+use App\Notifications\WelcomeOwnerNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -25,8 +29,34 @@ class EventController extends Controller
      */
     public function store(CreateEventRequest $request)
     {
-        $event = Event::create($request->validated()); 
+        $data = $request->validated();
+
+        $owner = User::query()->firstOrCreate([
+            'email' => $data['owner']['email']
+        ], [
+            'name' => $data['owner']['name'],
+            'role' => 'event_owner',
+            'password' => Hash::make($passowrd = Str::random(10))   
+        ]);
+
+        $event = Event::query()->create([
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+            'location' => $data['location'],
+            'max_participants' => $data['max_participants'],
+            'start_date' => $data['start_date'],
+            'end_date' => $data['end_date'],
+            'owner_id' => $owner->id,
+        ]);
+
+        $owner->notify(new WelcomeOwnerNotification($event, $passowrd));
+
         return new EventResource($event);
+
+
+
+        // $event = Event::create($request->validated()); 
+        // return new EventResource($event);
     }
 
     /**
