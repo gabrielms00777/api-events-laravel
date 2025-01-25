@@ -84,4 +84,9 @@ class EventController extends Controller
         $event->delete();
         return response()->noContent(); // or return response()->json(['message' => 'Event deleted successfully']);
     }
+
+    public function sendLink(Event $event)
+    {
+        
+    }
 }

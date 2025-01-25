@@ -1,0 +1,52 @@
+POST http://localhost:8000/api/admin/events HTTP/1.1
+Content-Type: application/json
+Accept: : application/json
+
+{
+    "id": "event-11",
+    "name": "Evento de Tecnologia",
+    "description": "Palestras sobre inovação e desenvolvimento.",
+    "location": "Auditório da Universidade",
+    "max_participants": 100,
+    "start_date": "2026-11-25",
+    "end_date": "2026-11-25",
+    "owner": {
+      "name": "João Silva",
+      "email": "marianna.daniel@example.net"
+    }
+}
+
+###
+GET http://localhost:8000/api/admin/events HTTP/1.1
+
+###
+GET http://localhost:8000/api/admin/events/9e0cceef-ad59-417f-96f9-aee2ec43d2cf HTTP/1.1
+Accept: : application/json
+###
+PUT http://localhost:8000/api/admin/events/9e0cceef-ad59-417f-96f9-aee2ec43d2cf HTTP/1.1
+Content-Type: application/json
+Accept: : application/json
+
+{
+    "name": "Evento Atualizado",
+    "date": "2025-02-10",
+    "location": "Rio de Janeiro",
+    "max_participants": 150
+}
+
+###
+DELETE http://localhost:8000/api/admin/events/9e0cceef-ad59-417f-96f9-aee2ec43d2cf HTTP/1.1
+
+
+###
+POST http://localhost:8000/api/admin/events/9e0cceef-ad59-417f-96f9-aee2ec43d2cf/send-link HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "owner@example.com"
+}
+
+
+###
+
+###
