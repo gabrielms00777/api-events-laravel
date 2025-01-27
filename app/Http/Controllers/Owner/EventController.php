@@ -11,11 +11,14 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        return EventResource::collection($request
-            ->user()
-            ->events()
-            ->latest()
-            ->get());
+        return EventResource::collection(
+            $request
+                ->user()
+                ->events()
+                ->latest()
+                // ->pluck('id', 'nome')
+                ->get()
+        )->additional(['full_details' => false]);
     }
     public function show(Request $request)
     {
@@ -34,6 +37,10 @@ class EventController extends Controller
 
     public function selectEvent(Request $request)
     {
+        $request->validate([
+            'event_id' => 'required|exists:events,id'
+        ]);
+
         $event = Event::query()->where('id', $request->event_id)->where('owner_id', $request->user()->id)->first();
         if ($event) {
             $request->user()->update([
@@ -42,6 +49,5 @@ class EventController extends Controller
             return new EventResource($event);
         }
         return response()->json(['message' => 'Event not found'], 404);
-
     }
 }

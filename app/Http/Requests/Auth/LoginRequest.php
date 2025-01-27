@@ -44,7 +44,7 @@ class LoginRequest extends FormRequest
 
         $user = User::query()->where('email', $this->email)->first();
 
-        if ($user && $user->role != 'admin') {
+        if ($user && !in_array($user->role, ['admin', 'event_owner'])) {
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
