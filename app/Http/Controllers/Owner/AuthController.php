@@ -17,12 +17,16 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
-            'event_id' => 'required|exists:events,id',
+            // 'event_id' => 'required|exists:events,id',
         ]);
 
-
-        $event = Event::query()->findOrFail($request->event_id);
         $user = User::query()->where('email', $request->email)->first();
+
+        $event = Event::query()->where('owner_id', $user->id)->first();
+        
+        if(!$event) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
 
         if (!$user || $user->id !== $event->owner_id || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
