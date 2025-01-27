@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Owner;
+use App\Http\Controllers\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,9 +10,12 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/events', [Site\EventController::class, 'index']);
+Route::get('/events/{event}', [Site\EventController::class, 'show']);
+
 // Super Admin Routes
 Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(function () {
-    Route::apiResource('events', EventController::class);
+    Route::apiResource('events', Admin\EventController::class);
     // Route::get('/admin', [AdminController::class, 'dashboard']); // Dashboard do Super Admin
     // Route::get('/admin/events', [EventController::class, 'index']); // Listar todos os eventos
     // Route::post('/admin/events', [EventController::class, 'store']); // Criar um novo evento
