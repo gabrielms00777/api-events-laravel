@@ -11,10 +11,31 @@ class Event extends Model
     /** @use HasFactory<\Database\Factories\EventFactory> */
     use HasFactory, HasUuids;
 
-    protected $fillable = ['name', 'description', 'location', 'max_participants', 'start_date', 'end_date', 'owner_id',];
+    protected $fillable = [
+        'name',
+        'description',
+        'location',
+        'max_participants',
+        'start_date',
+        'end_date',
+        'image_url',
+    ];
 
-    public function owner()
+    public function owners()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'event_users')
+            ->wherePivot('role', 'owner');
+    }
+
+    public function staff()
+    {
+        return $this->belongsToMany(User::class, 'event_users')
+            ->wherePivot('role', 'staff');
+    }
+
+    public function visitors()
+    {
+        return $this->belongsToMany(User::class, 'event_visitors', 'event_id', 'user_id')
+            ->where('role', 'visitor');
     }
 }

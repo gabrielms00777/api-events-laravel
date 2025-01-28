@@ -14,12 +14,12 @@ class EventResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if (!$request->has('full_details')) {
-            return [
-                'id' => $this->id,
-                'name' => $this->name,
-            ];
-        }
+        // if (!$request->has('full_details')) {
+        //     return [
+        //         'id' => $this->id,
+        //         'name' => $this->name,
+        //     ];
+        // }
 
         return [
             'id' => $this->id,

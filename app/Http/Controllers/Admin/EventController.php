@@ -36,7 +36,7 @@ class EventController extends Controller
         ], [
             'name' => $data['owner']['name'],
             'role' => 'event_owner',
-            'password' => Hash::make($passowrd = Str::random(10))
+            'password' => Hash::make($password = Str::random(10))
         ]);
 
         $event = Event::query()->create([
@@ -46,12 +46,13 @@ class EventController extends Controller
             'max_participants' => $data['max_participants'],
             'start_date' => $data['start_date'],
             'end_date' => $data['end_date'],
-            'owner_id' => $owner->id,
         ]);
 
-        $owner->notify(new WelcomeOwnerNotification($event, $passowrd));
+        $event->owners()->attach($owner->id, ['role' => 'owner']);
 
-        return new EventResource($event);
+        $owner->notify(new WelcomeOwnerNotification($event, $password));
+
+        return new EventResource($event->load('owners'));
 
 
 

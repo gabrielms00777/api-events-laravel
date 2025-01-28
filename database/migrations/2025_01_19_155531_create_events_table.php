@@ -15,11 +15,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('image_url')->nullable();
             $table->string('location');
             $table->unsignedInteger('max_participants');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->foreignId('owner_id')->constrained('users');
+            // $table->foreignId('owner_id')->constrained('users');
             $table->timestamps();
         });
     }

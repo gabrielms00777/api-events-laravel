@@ -38,7 +38,6 @@ class CreateEventRequest extends FormRequest
     return [
         'name.required' => 'O nome do evento é obrigatório.',
         'owner.name.required' => 'O nome do organizador é obrigatório.',
-        'owner.email.exists' => 'O email fornecido não corresponde a nenhum usuário registrado.',
     ];
 }
 }

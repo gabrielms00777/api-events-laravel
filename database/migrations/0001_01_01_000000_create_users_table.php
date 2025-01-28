@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('role');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->nullable();
+            $table->string('position')->nullable();
             $table->foreignIdFor(Event::class, 'last_event_id')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,18 +18,15 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::factory()->create([
-            'role' => 'event_owner'
-        ]);
-
         return [
             'name' => fake()->sentence,
             'description' => fake()->paragraph,
             'location' => fake()->address,
             'max_participants' => fake()->numberBetween(10, 100),
-            'start_date' => fake()->dateTime,
-            'end_date' => fake()->dateTime,
-            'owner_id' => $user,
+            'start_date' => fake()->dateTimeBetween('+1 day', '+7 days'),
+            'end_date' => fake()->dateTimeBetween('+8 days', '+14 days'),
+            'image_url' => fake()->imageUrl,
         ];
     }
+
 }

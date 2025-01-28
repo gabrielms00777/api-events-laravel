@@ -13,16 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Test User',
-            'role' => 'admin',
-            'email' => 'admin@admin',
-            'password' => 'admin',
-        ]);
-
-        // User::factory(10)->create();
-
         $this->call([
+            UserSeeder::class,
             EventSeeder::class
         ]);
     }

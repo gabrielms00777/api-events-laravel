@@ -14,9 +14,8 @@ class EventController extends Controller
         return EventResource::collection(
             $request
                 ->user()
-                ->events()
+                ->ownedEvents()
                 ->latest()
-                // ->pluck('id', 'nome')
                 ->get()
         )->additional(['full_details' => false]);
     }
@@ -41,7 +40,13 @@ class EventController extends Controller
             'event_id' => 'required|exists:events,id'
         ]);
 
-        $event = Event::query()->where('id', $request->event_id)->where('owner_id', $request->user()->id)->first();
+        // $event = Event::query()
+        //                 ->where('id', $request->event_id)
+        //                 ->where('owner_id', $request->user()->id)
+        //                 ->first();
+
+        $event = $request->user()->ownedEvents()->where('events.id', $request->event_id)->first();
+        
         if ($event) {
             $request->user()->update([
                 'last_event_id' => $event->id

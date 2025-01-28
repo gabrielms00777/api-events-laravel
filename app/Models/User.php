@@ -21,8 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
+        'role', //visitor, staff, event_owner, admin
         'last_event_id',
+        'phone',
+        'position',
     ];
 
     /**
@@ -48,8 +50,20 @@ class User extends Authenticatable
         ];
     }
 
-    public function events()
+    public function ownedEvents()
     {
-        return $this->hasMany(Event::class, 'owner_id');
+        return $this->belongsToMany(Event::class, 'event_users')
+            ->wherePivot('role', 'owner');
+    }
+
+    public function assignedEvents()
+    {
+        return $this->belongsToMany(Event::class, 'event_users')
+            ->wherePivot('role', 'staff');
+    }
+
+    public function eventsAsVisitor()
+    {
+        return $this->belongsToMany(Event::class, 'event_visitors', 'user_id', 'event_id');
     }
 }
