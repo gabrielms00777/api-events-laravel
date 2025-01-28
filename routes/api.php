@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Auth::loginUsingId(2);
+Auth::loginUsingId(2);
+
 Route::get('/events', [Site\EventController::class, 'index']);
 Route::get('/events/{event}', [Site\EventController::class, 'show']);
 

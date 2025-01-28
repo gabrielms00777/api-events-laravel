@@ -53,7 +53,7 @@ class User extends Authenticatable
     public function ownedEvents()
     {
         return $this->belongsToMany(Event::class, 'event_users')
-            ->wherePivot('role', 'owner');
+            ->wherePivot('role', 'event_owner');
     }
 
     public function assignedEvents()

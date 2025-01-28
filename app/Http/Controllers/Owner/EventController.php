@@ -11,13 +11,14 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
+        // dd($request->user()->ownedEvents()->get());
         return EventResource::collection(
             $request
                 ->user()
                 ->ownedEvents()
                 ->latest()
                 ->get()
-        )->additional(['full_details' => false]);
+        );
     }
     public function show(Request $request)
     {
@@ -46,7 +47,7 @@ class EventController extends Controller
         //                 ->first();
 
         $event = $request->user()->ownedEvents()->where('events.id', $request->event_id)->first();
-        
+
         if ($event) {
             $request->user()->update([
                 'last_event_id' => $event->id

@@ -42,13 +42,13 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $user = User::query()->where('email', $this->email)->first();
+        // $user = User::query()->where('email', $this->email)->first();
 
-        if ($user && !in_array($user->role, ['admin', 'event_owner'])) {
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
+        // if ($user && !in_array($user->role, ['admin', 'event_owner'])) {
+        //     throw ValidationException::withMessages([
+        //         'email' => __('auth.failed'),
+        //     ]);
+        // }
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
